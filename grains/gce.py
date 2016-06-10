@@ -42,7 +42,18 @@ def gce_zone():
     zone = re.search('/([^/]+)$', rsp.read()).groups()[0]
     return {'zone': zone}
 
+def gce_kv():
+    """
+    Fetch the instance's zone.
+    """
+    h = httplib.HTTPConnection('metadata')
+    h.request('GET',
+        'computeMetadata/v1/instance/attributes/kv', ' ', {'X-Google-Metadata-Request': 'True'})
+    rsp = h.getresponse()
+    return json.loads(rsp.read())
+
 if __name__ == '__main__':
     print gce_ext_ip()
     print gce_tags()
     print gce_zone()
+    print gce_kv()
