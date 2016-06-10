@@ -26,6 +26,7 @@ Removing links:
 '''
 import os
 import logging
+import shutil
 import sys
 
 logger = logging.getLogger(__name__)
@@ -84,7 +85,7 @@ def link(source, dest):
     if not os.path.islink(dest):
         logger.debug("Linking {0}".format(source))
         try:
-            os.symlink(source, dest)
+            shutil.copy(source, dest)
             return True
         except:
             logger.warning("Failed to created {0}".format(dest))
